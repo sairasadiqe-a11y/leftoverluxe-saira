@@ -1,6 +1,7 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState, type FormEvent } from "react";
+import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { Plus, X, ChefHat, Sparkles, ArrowRight } from "lucide-react";
+import { z } from "zod";
 import {
   addIngredient,
   removeIngredient,
@@ -8,11 +9,16 @@ import {
   clearIngredients,
 } from "@/lib/pantry-store";
 import { SUGGESTED_INGREDIENTS } from "@/lib/recipes";
-import { Link } from "@tanstack/react-router";
+
+const searchSchema = z.object({
+  ingredient: z.string().optional(),
+});
 
 export const Route = createFileRoute("/")({
+  validateSearch: searchSchema,
   component: Home,
 });
+
 
 function Home() {
   const pantry = usePantry();
