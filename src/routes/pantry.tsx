@@ -16,6 +16,7 @@ export const Route = createFileRoute("/pantry")({
 
 function PantryPage() {
   const pantry = usePantry();
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen">
