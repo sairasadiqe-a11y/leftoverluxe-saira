@@ -84,7 +84,7 @@ function PantryPage() {
               return (
                 <li key={s}>
                   <button
-                    onClick={() => (added ? removeIngredient(s) : addIngredient(s))}
+                    onClick={() => navigate({ to: "/", search: { ingredient: s } })}
                     className={
                       "flex w-full items-center justify-between rounded-xl border px-3 py-2.5 text-left text-sm capitalize transition " +
                       (added
