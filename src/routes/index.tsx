@@ -1,7 +1,6 @@
-import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useState, type FormEvent } from "react";
 import { Plus, X, ChefHat, Sparkles, ArrowRight } from "lucide-react";
-import { z } from "zod";
 import {
   addIngredient,
   removeIngredient,
@@ -9,46 +8,23 @@ import {
   clearIngredients,
 } from "@/lib/pantry-store";
 import { SUGGESTED_INGREDIENTS } from "@/lib/recipes";
-
-const searchSchema = z.object({
-  ingredient: z.string().optional(),
-});
+import { Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
-  validateSearch: searchSchema,
   component: Home,
 });
-
 
 function Home() {
   const pantry = usePantry();
   const [value, setValue] = useState("");
-  const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
-  const search = Route.useSearch();
-
-  // Populate the search bar from a shared ingredient selection.
-  useEffect(() => {
-    if (search.ingredient) {
-      setValue(search.ingredient);
-      inputRef.current?.focus();
-    }
-  }, [search.ingredient]);
-
-  function fillInput(name: string) {
-    setValue(name);
-    inputRef.current?.focus();
-  }
 
   function submit(e: FormEvent) {
     e.preventDefault();
     if (!value.trim()) return;
     addIngredient(value);
     setValue("");
-    // Clear the search param so the same item can be re-selected later.
-    void navigate({ to: "/", search: { ingredient: undefined } });
   }
-
 
   const unusedSuggestions = SUGGESTED_INGREDIENTS.filter((s) => !pantry.includes(s));
 
@@ -77,7 +53,6 @@ function Home() {
           className="mx-auto mt-10 flex max-w-xl items-center gap-2 rounded-2xl border border-border bg-card p-2 shadow-[var(--shadow-soft)] focus-within:ring-2 focus-within:ring-primary/40"
         >
           <input
-            ref={inputRef}
             value={value}
             onChange={(e) => setValue(e.target.value)}
             placeholder="e.g. spinach, half an onion, 2 eggs..."
@@ -108,24 +83,13 @@ function Home() {
             <ul className="flex flex-wrap gap-2">
               {pantry.map((item) => (
                 <li key={item}>
-                  <div className="group inline-flex items-center gap-1 rounded-full border border-border bg-card px-3 py-1.5 text-sm capitalize text-foreground shadow-[var(--shadow-soft)] transition hover:border-primary/40 hover:bg-primary/5">
-                    <button
-                      type="button"
-                      onClick={() => fillInput(item)}
-                      className="capitalize focus:outline-none"
-                      aria-label={`Edit ${item} in search bar`}
-                    >
-                      {item}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => removeIngredient(item)}
-                      aria-label={`Remove ${item}`}
-                      className="grid h-5 w-5 place-items-center rounded-full text-muted-foreground transition hover:text-destructive focus:outline-none"
-                    >
-                      <X className="h-3.5 w-3.5" />
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => removeIngredient(item)}
+                    className="group inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-sm capitalize text-foreground shadow-[var(--shadow-soft)] transition hover:border-destructive/40 hover:bg-destructive/5"
+                  >
+                    {item}
+                    <X className="h-3.5 w-3.5 text-muted-foreground transition group-hover:text-destructive" />
+                  </button>
                 </li>
               ))}
             </ul>
@@ -148,7 +112,7 @@ function Home() {
             {unusedSuggestions.slice(0, 16).map((s) => (
               <li key={s}>
                 <button
-                  onClick={() => fillInput(s)}
+                  onClick={() => addIngredient(s)}
                   className="inline-flex items-center gap-1.5 rounded-full border border-dashed border-border bg-transparent px-3 py-1.5 text-sm capitalize text-muted-foreground transition hover:border-primary/50 hover:bg-primary/5 hover:text-foreground"
                 >
                   <Plus className="h-3.5 w-3.5" />
