@@ -77,6 +77,7 @@ function Home() {
           className="mx-auto mt-10 flex max-w-xl items-center gap-2 rounded-2xl border border-border bg-card p-2 shadow-[var(--shadow-soft)] focus-within:ring-2 focus-within:ring-primary/40"
         >
           <input
+            ref={inputRef}
             value={value}
             onChange={(e) => setValue(e.target.value)}
             placeholder="e.g. spinach, half an onion, 2 eggs..."
