@@ -1,7 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, Plus, X } from "lucide-react";
 import { Header } from "./index";
-import { addIngredient, removeIngredient, usePantry } from "@/lib/pantry-store";
+import { removeIngredient, usePantry } from "@/lib/pantry-store";
 import { SUGGESTED_INGREDIENTS } from "@/lib/recipes";
 
 export const Route = createFileRoute("/pantry")({
@@ -16,6 +16,7 @@ export const Route = createFileRoute("/pantry")({
 
 function PantryPage() {
   const pantry = usePantry();
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen">
@@ -48,13 +49,24 @@ function PantryPage() {
             <ul className="mt-4 flex flex-wrap gap-2">
               {pantry.map((item) => (
                 <li key={item}>
-                  <button
-                    onClick={() => removeIngredient(item)}
-                    className="group inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1.5 text-sm capitalize text-foreground transition hover:bg-destructive/10"
-                  >
-                    {item}
-                    <X className="h-3.5 w-3.5 text-muted-foreground transition group-hover:text-destructive" />
-                  </button>
+                  <div className="group inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1.5 text-sm capitalize text-foreground transition hover:bg-primary/15">
+                    <button
+                      type="button"
+                      onClick={() => navigate({ to: "/", search: { ingredient: item } })}
+                      className="capitalize focus:outline-none"
+                      aria-label={`Edit ${item} in search bar`}
+                    >
+                      {item}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => removeIngredient(item)}
+                      aria-label={`Remove ${item}`}
+                      className="grid h-5 w-5 place-items-center rounded-full text-muted-foreground transition hover:text-destructive focus:outline-none"
+                    >
+                      <X className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
                 </li>
               ))}
             </ul>
@@ -72,7 +84,7 @@ function PantryPage() {
               return (
                 <li key={s}>
                   <button
-                    onClick={() => (added ? removeIngredient(s) : addIngredient(s))}
+                    onClick={() => navigate({ to: "/", search: { ingredient: s } })}
                     className={
                       "flex w-full items-center justify-between rounded-xl border px-3 py-2.5 text-left text-sm capitalize transition " +
                       (added
