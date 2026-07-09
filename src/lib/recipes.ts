@@ -155,7 +155,6 @@ export const RECIPES: Recipe[] = [
       { item: "Spinach + lemon juice", qty: "2 handfuls / 1 tbsp" },
     ],
     materials: ["Medium pot", "Wooden spoon", "Ladle"],
-    materials: ["Medium pot", "Wooden spoon", "Ladle"],
     steps: [
       "Sauté onion and carrot in olive oil for 5 minutes.",
       "Add garlic and spices, cook 1 minute.",
