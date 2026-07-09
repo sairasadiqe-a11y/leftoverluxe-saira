@@ -148,7 +148,7 @@ function Home() {
             {unusedSuggestions.slice(0, 16).map((s) => (
               <li key={s}>
                 <button
-                  onClick={() => addIngredient(s)}
+                  onClick={() => fillInput(s)}
                   className="inline-flex items-center gap-1.5 rounded-full border border-dashed border-border bg-transparent px-3 py-1.5 text-sm capitalize text-muted-foreground transition hover:border-primary/50 hover:bg-primary/5 hover:text-foreground"
                 >
                   <Plus className="h-3.5 w-3.5" />
