@@ -1,7 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, Plus, X } from "lucide-react";
 import { Header } from "./index";
-import { addIngredient, removeIngredient, usePantry } from "@/lib/pantry-store";
+import { removeIngredient, usePantry } from "@/lib/pantry-store";
 import { SUGGESTED_INGREDIENTS } from "@/lib/recipes";
 
 export const Route = createFileRoute("/pantry")({
