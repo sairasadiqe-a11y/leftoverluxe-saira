@@ -108,13 +108,24 @@ function Home() {
             <ul className="flex flex-wrap gap-2">
               {pantry.map((item) => (
                 <li key={item}>
-                  <button
-                    onClick={() => removeIngredient(item)}
-                    className="group inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-sm capitalize text-foreground shadow-[var(--shadow-soft)] transition hover:border-destructive/40 hover:bg-destructive/5"
-                  >
-                    {item}
-                    <X className="h-3.5 w-3.5 text-muted-foreground transition group-hover:text-destructive" />
-                  </button>
+                  <div className="group inline-flex items-center gap-1 rounded-full border border-border bg-card px-3 py-1.5 text-sm capitalize text-foreground shadow-[var(--shadow-soft)] transition hover:border-primary/40 hover:bg-primary/5">
+                    <button
+                      type="button"
+                      onClick={() => fillInput(item)}
+                      className="capitalize focus:outline-none"
+                      aria-label={`Edit ${item} in search bar`}
+                    >
+                      {item}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => removeIngredient(item)}
+                      aria-label={`Remove ${item}`}
+                      className="grid h-5 w-5 place-items-center rounded-full text-muted-foreground transition hover:text-destructive focus:outline-none"
+                    >
+                      <X className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
                 </li>
               ))}
             </ul>
