@@ -23,14 +23,32 @@ export const Route = createFileRoute("/")({
 function Home() {
   const pantry = usePantry();
   const [value, setValue] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
+  const search = Route.useSearch();
+
+  // Populate the search bar from a shared ingredient selection.
+  useEffect(() => {
+    if (search.ingredient) {
+      setValue(search.ingredient);
+      inputRef.current?.focus();
+    }
+  }, [search.ingredient]);
+
+  function fillInput(name: string) {
+    setValue(name);
+    inputRef.current?.focus();
+  }
 
   function submit(e: FormEvent) {
     e.preventDefault();
     if (!value.trim()) return;
     addIngredient(value);
     setValue("");
+    // Clear the search param so the same item can be re-selected later.
+    void navigate({ to: "/", search: { ingredient: undefined } });
   }
+
 
   const unusedSuggestions = SUGGESTED_INGREDIENTS.filter((s) => !pantry.includes(s));
 
