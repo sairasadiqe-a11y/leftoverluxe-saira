@@ -156,7 +156,7 @@ export function Header() {
         </span>
       </Link>
       <span className="font-display text-sm italic text-muted-foreground">
-        made by <span className="font-semibold not-italic text-foreground">Saira</span>
+        made by <span className="font-semibold not-italic text-foreground">Saira Fathima</span>
       </span>
     </header>
   );
