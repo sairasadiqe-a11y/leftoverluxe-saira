@@ -172,6 +172,12 @@ function Home() {
         {/* SUSTAINABILITY COUNTER */}
         <ImpactDashboard rescued={rescued} pantryCount={pantry.length} />
 
+        {/* ALCHEMIST'S HEALTHY PICKS */}
+        <FeaturedPicks />
+
+        {/* FOOD WASTE AWARENESS */}
+        <FoodWasteAwareness />
+
         {/* STATISTIC / PROBLEM STATEMENT */}
         <StatCard />
 
