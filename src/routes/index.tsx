@@ -1,9 +1,9 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
-import { useEffect, useState, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import {
   Plus, X, Sparkles, ArrowRight, Leaf, Heart, Recycle, Wallet,
   Carrot, Bot, Utensils, Search, Timer, Salad, Bookmark, Settings as SettingsIcon,
-  TrendingDown, Globe, Wand2,
+  TrendingDown, Globe, Wand2, Trash2, Cloud, DollarSign, Users2,
 } from "lucide-react";
 import {
   addIngredient,
@@ -13,8 +13,10 @@ import {
   useRescuedCount,
 } from "@/lib/pantry-store";
 import { SUGGESTED_INGREDIENTS } from "@/lib/recipes";
+import { FEATURED_RECIPES } from "@/lib/featured-recipes";
 import { Footer } from "@/components/Footer";
 import { AILoading } from "@/components/AILoading";
+import { FeaturedRecipeCard } from "@/components/FeaturedRecipeCard";
 
 export const Route = createFileRoute("/")({
   component: Home,
