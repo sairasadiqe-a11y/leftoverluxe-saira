@@ -2,11 +2,12 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import {
   ArrowLeft, Clock, Users, ExternalLink, ChefHat, Utensils, ListChecks,
-  PlayCircle, Search, PartyPopper, X,
+  PlayCircle, Search, PartyPopper, X, ArrowUpRight,
 } from "lucide-react";
 import { Header } from "./index";
 import { Footer } from "@/components/Footer";
 import { AILoading } from "@/components/AILoading";
+import { FavoriteButton } from "@/components/FavoriteButton";
 import { usePantry } from "@/lib/pantry-store";
 import { rankRecipes, RECIPES, type Recipe } from "@/lib/recipes";
 
