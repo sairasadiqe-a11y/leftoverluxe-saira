@@ -1,9 +1,9 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
-import { useEffect, useState, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import {
   Plus, X, Sparkles, ArrowRight, Leaf, Heart, Recycle, Wallet,
   Carrot, Bot, Utensils, Search, Timer, Salad, Bookmark, Settings as SettingsIcon,
-  TrendingDown, Globe, Wand2,
+  TrendingDown, Globe, Wand2, Trash2, Cloud, DollarSign, Users2,
 } from "lucide-react";
 import {
   addIngredient,
@@ -13,8 +13,10 @@ import {
   useRescuedCount,
 } from "@/lib/pantry-store";
 import { SUGGESTED_INGREDIENTS } from "@/lib/recipes";
+import { FEATURED_RECIPES } from "@/lib/featured-recipes";
 import { Footer } from "@/components/Footer";
 import { AILoading } from "@/components/AILoading";
+import { FeaturedRecipeCard } from "@/components/FeaturedRecipeCard";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -169,6 +171,12 @@ function Home() {
 
         {/* SUSTAINABILITY COUNTER */}
         <ImpactDashboard rescued={rescued} pantryCount={pantry.length} />
+
+        {/* ALCHEMIST'S HEALTHY PICKS */}
+        <FeaturedPicks />
+
+        {/* FOOD WASTE AWARENESS */}
+        <FoodWasteAwareness />
 
         {/* STATISTIC / PROBLEM STATEMENT */}
         <StatCard />
@@ -373,9 +381,91 @@ export function Header() {
           Kitchen Alchemy
         </span>
       </Link>
-      <span className="font-display text-sm italic text-muted-foreground">
-        made by <span className="font-semibold not-italic text-foreground">Saira Fathima</span>
-      </span>
+      <div className="flex items-center gap-4">
+        <Link
+          to="/favourites"
+          className="hover-lift inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-soft)]"
+          aria-label="My favourites"
+        >
+          <Heart className="h-3.5 w-3.5 text-[color:var(--destructive)]" />
+          <span className="hidden sm:inline">Favourites</span>
+        </Link>
+        <span className="hidden font-display text-sm italic text-muted-foreground sm:inline">
+          made by <span className="font-semibold not-italic text-foreground">Saira Fathima</span>
+        </span>
+      </div>
     </header>
+  );
+}
+
+function FeaturedPicks() {
+  return (
+    <section className="animate-fade-up mt-16">
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <span className="inline-flex items-center gap-2 rounded-full bg-[color:var(--gold)]/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-[color:var(--gold)]">
+            <Sparkles className="h-3.5 w-3.5" /> Featured
+          </span>
+          <h2 className="mt-3 font-display text-3xl font-semibold text-foreground sm:text-4xl">
+            ✨ Alchemist's Healthy Picks
+          </h2>
+          <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+            Discover nutritious recipes crafted from everyday leftover ingredients. These featured recipes
+            showcase how simple pantry items can be transformed into delicious, healthy meals while reducing
+            food waste.
+          </p>
+        </div>
+      </div>
+      <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {FEATURED_RECIPES.map((r, i) => (
+          <FeaturedRecipeCard key={r.id} recipe={r} index={i} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function FoodWasteAwareness() {
+  const impacts = [
+    { icon: Cloud, title: "Greenhouse Emissions", body: "Food waste generates ~8–10% of global greenhouse gas emissions each year." },
+    { icon: Globe, title: "Wasted Resources", body: "Land, water and energy used to grow uneaten food are lost with it." },
+    { icon: DollarSign, title: "Higher Bills", body: "The average household throws away hundreds of dollars of edible food yearly." },
+    { icon: Users2, title: "Food Insecurity", body: "Nearly 1 in 10 people go hungry while a third of food is wasted." },
+  ];
+  return (
+    <section className="animate-fade-up mt-16 overflow-hidden rounded-3xl border border-border bg-card p-6 shadow-[var(--shadow-soft)] sm:p-10">
+      <div className="grid gap-8 md:grid-cols-[1fr_1.4fr]">
+        <div>
+          <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-primary">
+            <Trash2 className="h-3.5 w-3.5" /> Food Waste Awareness
+          </span>
+          <h2 className="mt-3 font-display text-3xl font-semibold text-foreground sm:text-4xl">
+            One-third of the world's food<br />
+            <span className="italic text-primary">is wasted every year.</span>
+          </h2>
+          <p className="mt-3 text-sm text-muted-foreground">
+            That's approximately <span className="font-semibold text-foreground">1.3 billion tonnes</span> of edible food
+            lost from farms to homes each year — with households the single largest contributor.
+          </p>
+          <div className="mt-5 rounded-2xl border border-[color:var(--gold)]/40 bg-[color:var(--gold)]/10 p-4">
+            <p className="text-sm text-foreground">
+              <span className="font-semibold">Kitchen Alchemy</span> empowers you to make a meaningful difference —
+              transforming leftovers into healthy meals, one recipe at a time.
+            </p>
+          </div>
+        </div>
+        <ul className="grid gap-3 sm:grid-cols-2">
+          {impacts.map(({ icon: Icon, title, body }) => (
+            <li key={title} className="hover-lift rounded-2xl border border-border bg-[image:var(--gradient-warm)] p-4">
+              <div className="grid h-10 w-10 place-items-center rounded-xl bg-card text-primary shadow-[var(--shadow-soft)]">
+                <Icon className="h-5 w-5" />
+              </div>
+              <h3 className="mt-3 font-display text-base font-semibold text-foreground">{title}</h3>
+              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{body}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
   );
 }
