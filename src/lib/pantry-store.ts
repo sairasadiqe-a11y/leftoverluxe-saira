@@ -1,6 +1,7 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
 
-const KEY = "leftover-chef.pantry.v1";
+const KEY = "kitchen-alchemy.pantry.v1";
+const STATS_KEY = "kitchen-alchemy.stats.v1";
 
 function read(): string[] {
   if (typeof window === "undefined") return [];
@@ -30,6 +31,17 @@ function subscribe(cb: () => void) {
 function write(next: string[]) {
   if (typeof window === "undefined") return;
   window.localStorage.setItem(KEY, JSON.stringify(next));
+  // Track lifetime rescued ingredients for the sustainability counter.
+  try {
+    const prev = read();
+    const added = next.filter((n) => !prev.includes(n)).length;
+    if (added > 0) {
+      const rawStats = window.localStorage.getItem(STATS_KEY);
+      const stats = rawStats ? JSON.parse(rawStats) : { rescued: 0 };
+      stats.rescued = (stats.rescued || 0) + added;
+      window.localStorage.setItem(STATS_KEY, JSON.stringify(stats));
+    }
+  } catch {}
   emit();
 }
 
@@ -50,7 +62,6 @@ export function clearIngredients() {
 }
 
 export function usePantry(): string[] {
-  // Hydration-safe: return [] on server, then hydrate on client
   const [hydrated, setHydrated] = useState(false);
   useEffect(() => {
     cache = read();
@@ -62,4 +73,20 @@ export function usePantry(): string[] {
     () => cache,
   );
   return hydrated ? value : [];
+}
+
+export function useRescuedCount(): number {
+  const [n, setN] = useState(0);
+  useEffect(() => {
+    const load = () => {
+      try {
+        const raw = window.localStorage.getItem(STATS_KEY);
+        setN(raw ? (JSON.parse(raw).rescued || 0) : 0);
+      } catch { setN(0); }
+    };
+    load();
+    const unsub = subscribe(load);
+    return () => { unsub(); };
+  }, []);
+  return n;
 }
