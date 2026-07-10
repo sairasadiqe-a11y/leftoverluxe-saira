@@ -183,9 +183,17 @@ function RecipeCard({
             <p className="mt-1 max-w-xl text-sm text-muted-foreground">{recipe.blurb}</p>
           </div>
         </div>
-        <div className="flex flex-wrap items-center gap-4 text-sm text-foreground">
+        <div className="flex flex-wrap items-center gap-3 text-sm text-foreground">
           <span className="inline-flex items-center gap-1.5"><Clock className="h-4 w-4 text-[color:var(--gold)]" />{recipe.time}</span>
           <span className="inline-flex items-center gap-1.5"><Users className="h-4 w-4 text-[color:var(--gold)]" />Serves {recipe.servings}</span>
+          <FavoriteButton id={recipe.id} size="sm" />
+          <Link
+            to="/recipe/$id"
+            params={{ id: recipe.id }}
+            className="hover-lift inline-flex items-center gap-1 rounded-full bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground hover:bg-[color:var(--primary-hover)]"
+          >
+            Open <ArrowUpRight className="h-3.5 w-3.5" />
+          </Link>
         </div>
       </header>
 
