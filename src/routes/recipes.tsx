@@ -247,6 +247,8 @@ function RecipeCard({
               </span>
             ))}
           </div>
+
+          <RecipeImpact id={recipe.id} impact={estimateImpact(recipe.ingredients)} />
         </div>
 
         <div className="space-y-6">
