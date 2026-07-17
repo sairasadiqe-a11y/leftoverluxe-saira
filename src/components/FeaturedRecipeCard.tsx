@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
-import { Clock, Flame, Signal } from "lucide-react";
+import { Clock, Flame, Leaf, Signal } from "lucide-react";
 import { FavoriteButton } from "./FavoriteButton";
+import { estimateImpact } from "@/lib/impact";
 import type { FeaturedRecipe } from "@/lib/featured-recipes";
 
 export function FeaturedRecipeCard({ recipe, index = 0 }: { recipe: FeaturedRecipe; index?: number }) {
