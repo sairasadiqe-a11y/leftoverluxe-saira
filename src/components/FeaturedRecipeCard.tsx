@@ -6,6 +6,7 @@ import type { FeaturedRecipe } from "@/lib/featured-recipes";
 
 export function FeaturedRecipeCard({ recipe, index = 0 }: { recipe: FeaturedRecipe; index?: number }) {
   const image = recipe.image;
+  const impact = estimateImpact(recipe.ingredients);
   return (
     <Link
       to="/recipe/$id"
