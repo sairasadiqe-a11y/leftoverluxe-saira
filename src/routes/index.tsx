@@ -37,7 +37,7 @@ const NAV_SECTIONS = [
 
 function Home() {
   const pantry = usePantry();
-  const rescued = useRescuedCount();
+  const stats = useStats();
   const [value, setValue] = useState("");
   const [cooking, setCooking] = useState(false);
   const navigate = useNavigate();
