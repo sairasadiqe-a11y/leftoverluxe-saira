@@ -4,18 +4,21 @@ import {
   Plus, X, Sparkles, ArrowRight, Leaf, Heart, Recycle, Wallet,
   Carrot, Bot, Utensils, Search, Timer, Salad, Bookmark, Settings as SettingsIcon,
   TrendingDown, Globe, Wand2, Trash2, Cloud, DollarSign, Users2, ChevronDown,
+  Droplets, Star, Lightbulb, Compass, FlaskConical, Palette, TestTube2,
+  ClipboardCheck, Rocket, AlertTriangle, TrendingUp,
 } from "lucide-react";
 import {
   addIngredient,
   removeIngredient,
   usePantry,
   clearIngredients,
-  useRescuedCount,
+  useStats,
 } from "@/lib/pantry-store";
 import { SUGGESTED_INGREDIENTS } from "@/lib/recipes";
 import { FEATURED_RECIPES } from "@/lib/featured-recipes";
 import { Footer } from "@/components/Footer";
 import { AILoading } from "@/components/AILoading";
+import { AnimatedNumber } from "@/components/AnimatedNumber";
 import { FeaturedRecipeCard } from "@/components/FeaturedRecipeCard";
 import { FloatingScene } from "@/components/FloatingScene";
 import { ScrollProgress, BackToTop, WaveDivider } from "@/components/PageChrome";
@@ -28,8 +31,8 @@ const NAV_SECTIONS = [
   { id: "generator", label: "Generate" },
   { id: "impact", label: "Impact" },
   { id: "picks", label: "Picks" },
-  { id: "awareness", label: "Awareness" },
-  { id: "about-ai", label: "AI" },
+  { id: "sdg", label: "SDG 12" },
+  { id: "journey", label: "Journey" },
 ];
 
 function Home() {
