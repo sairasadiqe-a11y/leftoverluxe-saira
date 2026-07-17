@@ -54,6 +54,14 @@ export function FeaturedRecipeCard({ recipe, index = 0 }: { recipe: FeaturedReci
             </span>
           )}
         </div>
+        <div className="mt-3 flex items-center gap-1.5 rounded-lg border border-[color:var(--gold)]/40 bg-[color:var(--gold)]/10 px-2.5 py-1.5 text-[11px] text-foreground">
+          <Leaf className="h-3.5 w-3.5 text-primary" />
+          <span>
+            Rescues <span className="font-semibold">{impact.wasteKg} kg</span> of ingredients ·
+            saves <span className="font-semibold">{impact.waterL >= 1000 ? `${(impact.waterL/1000).toFixed(1)} kL` : `${impact.waterL} L`}</span> water
+            <span className="text-muted-foreground"> — SDG 12</span>
+          </span>
+        </div>
       </div>
     </Link>
   );
