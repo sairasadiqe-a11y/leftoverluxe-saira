@@ -2,13 +2,15 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import {
   ArrowLeft, Clock, Users, ExternalLink, ChefHat, Utensils, ListChecks,
-  PlayCircle, Search, PartyPopper, X, ArrowUpRight,
+  PlayCircle, Search, PartyPopper, X, ArrowUpRight, Sparkles,
 } from "lucide-react";
 import { Header } from "./index";
 import { Footer } from "@/components/Footer";
 import { AILoading } from "@/components/AILoading";
 import { FavoriteButton } from "@/components/FavoriteButton";
-import { usePantry } from "@/lib/pantry-store";
+import { RecipeImpact } from "@/components/RecipeImpact";
+import { usePantry, recordRecipesGenerated } from "@/lib/pantry-store";
+import { estimateImpact } from "@/lib/impact";
 import { rankRecipes, RECIPES, type Recipe } from "@/lib/recipes";
 
 export const Route = createFileRoute("/recipes")({
@@ -54,6 +56,18 @@ function RecipesPage() {
   }, [ranked, q]);
 
   const top = filtered.slice(0, Math.max(3, filtered.length));
+
+  // Record every recipe the AI "generates" for the user so lifetime
+  // impact counters (waste/water/CO2) on the homepage update.
+  useEffect(() => {
+    if (preparing || top.length === 0) return;
+    recordRecipesGenerated(
+      top.map((r) => {
+        const est = estimateImpact(r.ingredients);
+        return { id: r.id, ...est };
+      }),
+    );
+  }, [preparing, top]);
 
   return (
     <div className="min-h-screen">
@@ -233,6 +247,8 @@ function RecipeCard({
               </span>
             ))}
           </div>
+
+          <RecipeImpact id={recipe.id} impact={estimateImpact(recipe.ingredients)} />
         </div>
 
         <div className="space-y-6">

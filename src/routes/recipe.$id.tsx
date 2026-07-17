@@ -7,6 +7,8 @@ import { Header } from "./index";
 import { Footer } from "@/components/Footer";
 import { FavoriteButton } from "@/components/FavoriteButton";
 import { findRecipeById, type FeaturedRecipe } from "@/lib/featured-recipes";
+import { RecipeImpact } from "@/components/RecipeImpact";
+import { estimateImpact } from "@/lib/impact";
 import type { Recipe } from "@/lib/recipes";
 
 export const Route = createFileRoute("/recipe/$id")({
@@ -135,6 +137,10 @@ function RecipeDetail() {
             </ul>
           </section>
         )}
+
+        <div className="animate-fade-up mt-6">
+          <RecipeImpact id={recipe.id} impact={estimateImpact(recipe.ingredients)} />
+        </div>
 
         <div className="mt-8 grid gap-8 md:grid-cols-[1fr_1.3fr]">
           <div className="space-y-6">

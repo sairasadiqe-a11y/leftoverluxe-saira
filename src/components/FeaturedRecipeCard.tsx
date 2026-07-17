@@ -1,10 +1,12 @@
 import { Link } from "@tanstack/react-router";
-import { Clock, Flame, Signal } from "lucide-react";
+import { Clock, Flame, Leaf, Signal } from "lucide-react";
 import { FavoriteButton } from "./FavoriteButton";
+import { estimateImpact } from "@/lib/impact";
 import type { FeaturedRecipe } from "@/lib/featured-recipes";
 
 export function FeaturedRecipeCard({ recipe, index = 0 }: { recipe: FeaturedRecipe; index?: number }) {
   const image = recipe.image;
+  const impact = estimateImpact(recipe.ingredients);
   return (
     <Link
       to="/recipe/$id"
@@ -51,6 +53,14 @@ export function FeaturedRecipeCard({ recipe, index = 0 }: { recipe: FeaturedReci
               <Flame className="h-3.5 w-3.5 text-[color:var(--gold)]" /> {recipe.calories} kcal
             </span>
           )}
+        </div>
+        <div className="mt-3 flex items-center gap-1.5 rounded-lg border border-[color:var(--gold)]/40 bg-[color:var(--gold)]/10 px-2.5 py-1.5 text-[11px] text-foreground">
+          <Leaf className="h-3.5 w-3.5 text-primary" />
+          <span>
+            Rescues <span className="font-semibold">{impact.wasteKg} kg</span> of ingredients ·
+            saves <span className="font-semibold">{impact.waterL >= 1000 ? `${(impact.waterL/1000).toFixed(1)} kL` : `${impact.waterL} L`}</span> water
+            <span className="text-muted-foreground"> — SDG 12</span>
+          </span>
         </div>
       </div>
     </Link>
