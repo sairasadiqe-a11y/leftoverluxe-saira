@@ -246,7 +246,7 @@ function Home() {
       <main className="mx-auto max-w-5xl px-6 pb-16">
         {/* SUSTAINABILITY COUNTER */}
         <div id="impact" className="scroll-mt-24">
-          <ImpactDashboard rescued={rescued} pantryCount={pantry.length} />
+          <ImpactDashboard stats={stats} pantryCount={pantry.length} />
         </div>
 
         {/* STATISTIC / PROBLEM STATEMENT */}
@@ -266,8 +266,15 @@ function Home() {
           <FoodWasteAwareness />
         </div>
 
-        {/* SDG 12 */}
-        <SDGSection />
+        {/* SDG 12 (expanded) */}
+        <div id="sdg" className="scroll-mt-24">
+          <SDGSection />
+        </div>
+
+        {/* OUR JOURNEY — Gemstone Design Thinking */}
+        <div id="journey" className="scroll-mt-24">
+          <JourneySection />
+        </div>
 
         {/* FEATURE CARDS */}
         <FeatureCards />
