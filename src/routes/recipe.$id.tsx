@@ -138,6 +138,10 @@ function RecipeDetail() {
           </section>
         )}
 
+        <div className="animate-fade-up mt-6">
+          <RecipeImpact id={recipe.id} impact={estimateImpact(recipe.ingredients)} />
+        </div>
+
         <div className="mt-8 grid gap-8 md:grid-cols-[1fr_1.3fr]">
           <div className="space-y-6">
             <div>
