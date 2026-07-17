@@ -2,13 +2,15 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import {
   ArrowLeft, Clock, Users, ExternalLink, ChefHat, Utensils, ListChecks,
-  PlayCircle, Search, PartyPopper, X, ArrowUpRight,
+  PlayCircle, Search, PartyPopper, X, ArrowUpRight, Sparkles,
 } from "lucide-react";
 import { Header } from "./index";
 import { Footer } from "@/components/Footer";
 import { AILoading } from "@/components/AILoading";
 import { FavoriteButton } from "@/components/FavoriteButton";
-import { usePantry } from "@/lib/pantry-store";
+import { RecipeImpact } from "@/components/RecipeImpact";
+import { usePantry, recordRecipesGenerated } from "@/lib/pantry-store";
+import { estimateImpact } from "@/lib/impact";
 import { rankRecipes, RECIPES, type Recipe } from "@/lib/recipes";
 
 export const Route = createFileRoute("/recipes")({
