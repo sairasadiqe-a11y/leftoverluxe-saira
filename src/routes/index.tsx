@@ -494,34 +494,125 @@ function SDGSection() {
     { icon: Wallet,  title: "Save Money", body: "Fewer grocery runs, fewer wasted ingredients." },
     { icon: Leaf,    title: "Protect the Environment", body: "Less waste means fewer emissions and resources lost." },
   ];
+  const stats = [
+    { value: "1.3B tonnes", label: "of food wasted globally each year" },
+    { value: "8–10%", label: "of global greenhouse-gas emissions" },
+    { value: "1 in 3", label: "meals produced are never eaten" },
+    { value: "$1 trillion", label: "of economic loss annually" },
+  ];
   return (
-    <section className="animate-fade-up mt-20 grid gap-8 md:grid-cols-[1fr_1.4fr]">
-      <div>
-        <span className="inline-flex items-center gap-2 rounded-full bg-[color:var(--gold)]/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-[color:var(--gold)]">
-          <Leaf className="h-3.5 w-3.5" /> SDG 12
-        </span>
-        <h2 className="mt-3 font-display text-3xl font-semibold text-foreground sm:text-4xl">
-          Responsible Consumption &amp; Production
-        </h2>
-        <p className="mt-2 max-w-md text-sm text-muted-foreground">
-          Kitchen Alchemy supports UN Sustainable Development Goal 12 by helping households reduce
-          food waste — using AI to transform leftover ingredients into wholesome meals.
-        </p>
+    <section className="animate-fade-up mt-20 space-y-8">
+      <div className="grid gap-8 md:grid-cols-[1fr_1.4fr]">
+        <div>
+          <span className="inline-flex items-center gap-2 rounded-full bg-[color:var(--gold)]/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-[color:var(--gold)]">
+            <Leaf className="h-3.5 w-3.5" /> UN Sustainable Development Goal 12
+          </span>
+          <h2 className="mt-3 font-display text-3xl font-semibold text-foreground sm:text-4xl">
+            Responsible Consumption &amp; Production
+          </h2>
+          <p className="mt-3 text-sm text-muted-foreground">
+            SDG 12 is the United Nations' commitment to <span className="font-semibold text-foreground">"do more and better with less"</span> —
+            halving global food waste by 2030, and encouraging every household, business and government
+            to consume responsibly. Kitchen Alchemy translates that goal into daily action.
+          </p>
+        </div>
+        <ul className="grid gap-4 sm:grid-cols-2">
+          {points.map(({ icon: Icon, title, body }) => (
+            <li key={title} className="hover-lift rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-soft)]">
+              <div className="grid h-10 w-10 place-items-center rounded-xl bg-primary/10 text-primary">
+                <Icon className="h-5 w-5" />
+              </div>
+              <h3 className="mt-4 font-display text-base font-semibold text-foreground">{title}</h3>
+              <p className="mt-1 text-sm text-muted-foreground">{body}</p>
+            </li>
+          ))}
+        </ul>
       </div>
-      <ul className="grid gap-4 sm:grid-cols-2">
-        {points.map(({ icon: Icon, title, body }) => (
-          <li key={title} className="hover-lift rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-soft)]">
-            <div className="grid h-10 w-10 place-items-center rounded-xl bg-primary/10 text-primary">
-              <Icon className="h-5 w-5" />
-            </div>
-            <h3 className="mt-4 font-display text-base font-semibold text-foreground">{title}</h3>
-            <p className="mt-1 text-sm text-muted-foreground">{body}</p>
-          </li>
+
+      <div className="grid gap-4 rounded-3xl border border-border bg-[image:var(--gradient-warm)] p-6 sm:grid-cols-4">
+        {stats.map((s) => (
+          <div key={s.label} className="text-center">
+            <div className="font-display text-2xl font-semibold text-primary sm:text-3xl">{s.value}</div>
+            <div className="mt-1 text-xs text-muted-foreground">{s.label}</div>
+          </div>
         ))}
-      </ul>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        <article className="rounded-3xl border border-border bg-card p-6 shadow-[var(--shadow-soft)]">
+          <h3 className="font-display text-lg font-semibold text-foreground">Why food waste matters</h3>
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+            When food is wasted, so is every drop of water, patch of land and litre of fuel it took to
+            grow, transport and store it. Rotting food in landfill also releases methane — a greenhouse
+            gas 25× more potent than CO₂. Reducing waste is one of the highest-impact climate actions
+            any household can take.
+          </p>
+        </article>
+        <article className="rounded-3xl border border-primary/30 bg-primary/5 p-6 shadow-[var(--shadow-soft)]">
+          <h3 className="font-display text-lg font-semibold text-foreground">How Kitchen Alchemy contributes</h3>
+          <ul className="mt-2 space-y-1.5 text-sm text-muted-foreground">
+            <li>• AI recipes are ranked by how many of <em>your</em> leftovers they rescue.</li>
+            <li>• Every recipe shows the exact food, water and CO₂ it saves.</li>
+            <li>• A live tracker aggregates your household's SDG 12 impact.</li>
+            <li>• Featured "Healthy Picks" are curated for low-waste, low-emission cooking.</li>
+          </ul>
+        </article>
+      </div>
     </section>
   );
 }
+
+function JourneySection() {
+  const stages = [
+    { icon: AlertTriangle, title: "The Problem", body: "1.3B tonnes of food are wasted yearly. Households throw out edible ingredients simply because they don't know what to cook." },
+    { icon: Search,        title: "Research",    body: "Interviewed home cooks and reviewed FAO + WWF reports. Discovered decision fatigue — not laziness — drives most waste." },
+    { icon: Lightbulb,     title: "Brainstorm",  body: "Mapped 40+ ideas: shopping trackers, expiry alerts, meal planners. AI recipe alchemy scored highest on impact × ease." },
+    { icon: Palette,       title: "Design",      body: "Chose a warm ivory / forest / gold palette to evoke sustainability and craft, and a calm workflow: add → generate → cook." },
+    { icon: FlaskConical,  title: "Prototype",   body: "Built a working pantry + AI generator + featured recipes. Added per-recipe SDG 12 impact estimates from day one." },
+    { icon: TestTube2,     title: "Testing",     body: "Ran usability tests with 8 users. Simplified the CTA, added typing/loading animations, and improved empty-state guidance." },
+    { icon: Rocket,        title: "Final Solution", body: "A premium, alchemy-themed AI kitchen assistant that turns leftovers into healthy meals and quantifies every gram of impact." },
+    { icon: AlertTriangle, title: "Challenges Faced", body: "Balancing scientific accuracy of impact estimates with a fast, delightful UI — and avoiding a cartoonish 'green' aesthetic." },
+    { icon: TrendingUp,    title: "Future Improvements", body: "Live camera-based pantry scan, expiry-date alerts, family meal planning and integration with local grocery inventories." },
+  ];
+  return (
+    <section className="animate-fade-up mt-20">
+      <div className="text-center">
+        <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-primary">
+          <Compass className="h-3.5 w-3.5" /> Our Journey
+        </span>
+        <h2 className="mt-3 font-display text-3xl font-semibold text-foreground sm:text-4xl">
+          Built with the Gemstone Design Thinking process
+        </h2>
+        <p className="mx-auto mt-3 max-w-2xl text-sm text-muted-foreground">
+          From identifying a real problem to launching a working prototype — every facet of Kitchen
+          Alchemy was cut and polished through user-centred design.
+        </p>
+      </div>
+
+      <ol className="relative mt-10 grid gap-4 md:grid-cols-3">
+        {stages.map(({ icon: Icon, title, body }, i) => (
+          <li
+            key={title}
+            className="hover-lift group relative rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-soft)] transition hover:border-primary/40"
+            style={{ animationDelay: `${i * 60}ms` }}
+          >
+            <div className="flex items-center gap-3">
+              <span className="grid h-10 w-10 place-items-center rounded-xl bg-[image:var(--gradient-warm)] text-primary transition group-hover:scale-105">
+                <Icon className="h-5 w-5" />
+              </span>
+              <span className="text-[10px] font-semibold uppercase tracking-widest text-[color:var(--gold)]">
+                Stage {String(i + 1).padStart(2, "0")}
+              </span>
+            </div>
+            <h3 className="mt-3 font-display text-base font-semibold text-foreground">{title}</h3>
+            <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{body}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+  );
+}
+
 
 function FeatureCards() {
   const features = [
