@@ -724,9 +724,9 @@ function FeaturedPicks() {
             ✨ Alchemist's Healthy Picks
           </h2>
           <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-            Discover nutritious recipes crafted from everyday leftover ingredients. These featured recipes
-            showcase how simple pantry items can be transformed into delicious, healthy meals while reducing
-            food waste.
+            Every pick here is chosen because it <span className="font-semibold text-foreground">rescues common leftovers</span> — the
+            water, land and CO₂ it took to grow those ingredients don't go to waste. That's SDG 12 on your plate.
+
           </p>
         </div>
       </div>
