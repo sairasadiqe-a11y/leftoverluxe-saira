@@ -57,6 +57,18 @@ function RecipesPage() {
 
   const top = filtered.slice(0, Math.max(3, filtered.length));
 
+  // Record every recipe the AI "generates" for the user so lifetime
+  // impact counters (waste/water/CO2) on the homepage update.
+  useEffect(() => {
+    if (preparing || top.length === 0) return;
+    recordRecipesGenerated(
+      top.map((r) => {
+        const est = estimateImpact(r.ingredients);
+        return { id: r.id, ...est };
+      }),
+    );
+  }, [preparing, top]);
+
   return (
     <div className="min-h-screen">
       <Header />
