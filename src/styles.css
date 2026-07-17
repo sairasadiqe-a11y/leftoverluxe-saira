@@ -184,6 +184,23 @@
   0%, 100% { transform: translateY(0); }
   50%      { transform: translateY(-4px); }
 }
+@keyframes ka-float {
+  0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
+  50%      { transform: translateY(-18px) rotate(calc(var(--r, 0deg) + 6deg)); }
+}
+@keyframes ka-sparkle {
+  0%, 100% { opacity: 0.15; transform: scale(0.8); }
+  50%      { opacity: 1; transform: scale(1.15); }
+}
+@keyframes ka-scroll-hint {
+  0%   { transform: translateY(0); opacity: 1; }
+  60%  { transform: translateY(8px); opacity: 0.4; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+@keyframes ka-aurora {
+  0%, 100% { transform: translate(0,0) scale(1); }
+  50%      { transform: translate(-30px, 20px) scale(1.08); }
+}
 
 @utility animate-fade-up {
   animation: ka-fade-up 0.7s cubic-bezier(.2,.7,.2,1) both;
@@ -203,7 +220,27 @@
 @utility animate-bounce-soft {
   animation: ka-bounce-soft 2.4s ease-in-out infinite;
 }
+@utility animate-float {
+  animation: ka-float 7s ease-in-out infinite;
+}
+@utility animate-sparkle {
+  animation: ka-sparkle 2.6s ease-in-out infinite;
+}
+@utility animate-scroll-hint {
+  animation: ka-scroll-hint 1.8s ease-in-out infinite;
+}
+@utility animate-aurora {
+  animation: ka-aurora 14s ease-in-out infinite;
+}
 @utility hover-lift {
   transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
   &:hover { transform: translateY(-2px); }
+}
+@utility hover-glow {
+  transition: transform .25s ease, box-shadow .25s ease, filter .25s ease;
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 48px -14px color-mix(in oklab, var(--primary) 55%, transparent);
+    filter: brightness(1.03);
+  }
 }
