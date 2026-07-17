@@ -7,6 +7,8 @@ import { Header } from "./index";
 import { Footer } from "@/components/Footer";
 import { FavoriteButton } from "@/components/FavoriteButton";
 import { findRecipeById, type FeaturedRecipe } from "@/lib/featured-recipes";
+import { RecipeImpact } from "@/components/RecipeImpact";
+import { estimateImpact } from "@/lib/impact";
 import type { Recipe } from "@/lib/recipes";
 
 export const Route = createFileRoute("/recipe/$id")({
