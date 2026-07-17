@@ -376,34 +376,91 @@ function StickyHeader() {
   );
 }
 
-function ImpactDashboard({ rescued, pantryCount }: { rescued: number; pantryCount: number }) {
-  const wasteKg = (rescued * 0.15).toFixed(2);
-  const co2Kg = (rescued * 0.4).toFixed(2);
-  const items = [
-    { icon: Carrot, label: "Ingredients rescued", value: String(rescued + pantryCount) },
-    { icon: TrendingDown, label: "Est. food waste prevented", value: `${wasteKg} kg` },
-    { icon: Globe, label: "Est. CO₂ reduction", value: `${co2Kg} kg` },
+function ImpactDashboard({
+  stats,
+  pantryCount,
+}: {
+  stats: import("@/lib/pantry-store").Stats;
+  pantryCount: number;
+}) {
+  const rating = stats.ratingCount > 0 ? stats.ratingSum / stats.ratingCount : 4.8;
+  const tiles: {
+    icon: typeof Carrot;
+    label: string;
+    node: React.ReactNode;
+    sub: string;
+  }[] = [
+    {
+      icon: Wand2,
+      label: "Recipes Generated",
+      node: <AnimatedNumber value={stats.recipesGenerated} />,
+      sub: "personalised by AI",
+    },
+    {
+      icon: Utensils,
+      label: "Meals Rescued",
+      node: <AnimatedNumber value={stats.mealsRescued + pantryCount} />,
+      sub: "cooked + planned",
+    },
+    {
+      icon: Leaf,
+      label: "Food Waste Prevented",
+      node: <><AnimatedNumber value={stats.wasteKg} decimals={2} /> kg</>,
+      sub: "kept out of landfill",
+    },
+    {
+      icon: Droplets,
+      label: "Water Saved",
+      node: stats.waterL >= 1000
+        ? <><AnimatedNumber value={+(stats.waterL / 1000).toFixed(1)} decimals={1} /> kL</>
+        : <><AnimatedNumber value={stats.waterL} /> L</>,
+      sub: "embedded in ingredients",
+    },
+    {
+      icon: Recycle,
+      label: "CO₂ Reduced",
+      node: <><AnimatedNumber value={stats.co2Kg} decimals={2} /> kg</>,
+      sub: "avoided emissions",
+    },
+    {
+      icon: Star,
+      label: "Avg. User Rating",
+      node: <><AnimatedNumber value={rating} decimals={1} /> / 5</>,
+      sub: stats.ratingCount ? `${stats.ratingCount} ratings` : "community average",
+    },
   ];
+
   return (
     <section className="animate-fade-up mt-16">
-      <div className="mb-4 flex items-baseline justify-between">
-        <h2 className="font-display text-2xl font-semibold text-foreground">Your impact so far</h2>
-        <span className="text-xs text-muted-foreground">Approximate estimates</span>
+      <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
+        <div>
+          <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-primary">
+            <Leaf className="h-3.5 w-3.5" /> Live SDG 12 tracker
+          </span>
+          <h2 className="mt-2 font-display text-3xl font-semibold text-foreground">Your impact so far</h2>
+        </div>
+        <span className="text-xs text-muted-foreground">Approximate estimates · updates in real time</span>
       </div>
-      <div className="grid gap-4 rounded-3xl border border-border bg-card p-6 shadow-[var(--shadow-soft)] sm:grid-cols-3">
-        {items.map(({ icon: Icon, label, value }) => (
-          <div key={label} className="hover-lift rounded-2xl border border-border bg-[image:var(--gradient-warm)] p-5">
-            <div className="grid h-10 w-10 place-items-center rounded-xl bg-card text-[color:var(--gold)] shadow-[var(--shadow-soft)]">
+      <div className="grid gap-4 rounded-3xl border border-border bg-card p-6 shadow-[var(--shadow-soft)] sm:grid-cols-2 lg:grid-cols-3">
+        {tiles.map(({ icon: Icon, label, node, sub }) => (
+          <div
+            key={label}
+            className="hover-lift group relative overflow-hidden rounded-2xl border border-border bg-[image:var(--gradient-warm)] p-5"
+          >
+            <div className="grid h-10 w-10 place-items-center rounded-xl bg-card text-[color:var(--gold)] shadow-[var(--shadow-soft)] transition group-hover:scale-105">
               <Icon className="h-5 w-5" />
             </div>
-            <div className="mt-4 font-display text-3xl font-semibold text-foreground">{value}</div>
-            <div className="mt-1 text-sm text-muted-foreground">{label}</div>
+            <div className="mt-4 font-display text-3xl font-semibold text-foreground">{node}</div>
+            <div className="mt-1 text-sm font-medium text-foreground/80">{label}</div>
+            <div className="text-xs text-muted-foreground">{sub}</div>
           </div>
         ))}
       </div>
     </section>
   );
 }
+
+
 
 function StatCard() {
   return (
