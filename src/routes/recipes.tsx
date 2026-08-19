@@ -12,6 +12,7 @@ import { RecipeImpact } from "@/components/RecipeImpact";
 import { usePantry, recordRecipesGenerated } from "@/lib/pantry-store";
 import { estimateImpact } from "@/lib/impact";
 import { rankRecipes, RECIPES, type Recipe } from "@/lib/recipes";
+import { getRecipeMeta } from "@/lib/recipe-meta";
 
 export const Route = createFileRoute("/recipes")({
   head: () => ({
