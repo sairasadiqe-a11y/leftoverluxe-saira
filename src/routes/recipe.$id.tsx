@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import {
   ArrowLeft, Clock, Users, ExternalLink, ChefHat, Utensils, ListChecks,
-  PlayCircle, Printer, Bookmark, Flame, Signal,
+  PlayCircle, Printer, Bookmark, Flame, Signal, Leaf, HeartPulse,
 } from "lucide-react";
 import { Header } from "./index";
 import { Footer } from "@/components/Footer";
@@ -10,6 +10,7 @@ import { findRecipeById, type FeaturedRecipe } from "@/lib/featured-recipes";
 import { RecipeImpact } from "@/components/RecipeImpact";
 import { estimateImpact } from "@/lib/impact";
 import type { Recipe } from "@/lib/recipes";
+import { getRecipeMeta } from "@/lib/recipe-meta";
 
 export const Route = createFileRoute("/recipe/$id")({
   head: ({ params }) => {
@@ -45,9 +46,10 @@ export const Route = createFileRoute("/recipe/$id")({
 
 function RecipeDetail() {
   const { recipe } = Route.useLoaderData() as { recipe: Recipe & Partial<FeaturedRecipe> };
-  const difficulty = recipe.difficulty ?? "Easy";
-  const calories = recipe.calories;
-  const image = recipe.image;
+  const meta = getRecipeMeta(recipe.id);
+  const difficulty = recipe.difficulty ?? meta?.difficulty ?? "Easy";
+  const calories = recipe.calories ?? meta?.calories;
+  const image = recipe.image ?? meta?.image;
   const categories = recipe.categories ?? recipe.tags;
 
   return (
@@ -111,7 +113,32 @@ function RecipeDetail() {
           </div>
         )}
 
+        {meta && (
+          <div className="animate-fade-up mt-4 flex flex-wrap items-center gap-2">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold text-foreground shadow-[var(--shadow-soft)]">
+              <span aria-hidden className="text-base leading-none">{meta.flag}</span>
+              {meta.country}
+            </span>
+            <span className="rounded-full bg-secondary px-3 py-1.5 text-xs font-medium text-secondary-foreground">
+              {meta.cuisine} cuisine
+            </span>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-[color:var(--gold)]/40 bg-[color:var(--gold)]/10 px-3 py-1.5 text-xs text-foreground">
+              <Leaf className="h-3.5 w-3.5 text-primary" /> {meta.sustainability}
+            </span>
+          </div>
+        )}
+
         <p className="animate-fade-up mt-4 max-w-2xl text-muted-foreground">{recipe.blurb}</p>
+
+        {meta && (
+          <div className="animate-fade-up mt-4 flex items-start gap-2 rounded-2xl border border-border bg-card p-4 text-sm shadow-[var(--shadow-soft)]">
+            <HeartPulse className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+            <span>
+              <span className="font-semibold text-foreground">Health benefit — </span>
+              <span className="text-muted-foreground">{meta.healthBenefit}</span>
+            </span>
+          </div>
+        )}
 
         {/* META STATS */}
         <div className="animate-fade-up mt-6 grid gap-3 rounded-2xl border border-border bg-card p-4 shadow-[var(--shadow-soft)] sm:grid-cols-4">
